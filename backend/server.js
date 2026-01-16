@@ -25,8 +25,21 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 // Middleware
+// Middleware
+const allowedOrigins = [
+  'http://localhost:5173', // Default Vite port
+  'http://localhost:5174', // Fallback Vite port
+  'http://localhost:5000', // Backend server
+  'https://smartdesignhub.vercel.app', // Production
+];
+
+// Add FRONTEND_URL from env if it exists and isn't already in the list
+if (process.env.FRONTEND_URL && !allowedOrigins.includes(process.env.FRONTEND_URL)) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: allowedOrigins,
   credentials: true,
 }));
 
