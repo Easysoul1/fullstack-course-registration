@@ -1,5 +1,5 @@
 import express from 'express';
-import { upload } from '../middleware/uploadMiddleware.js';
+import { upload, optimizeImage } from '../middleware/uploadMiddleware.js';
 import { registrationValidationRules, validate } from '../middleware/validationMiddleware.js';
 import { handleRegistration } from '../controllers/registrationController.js';
 
@@ -9,6 +9,7 @@ const router = express.Router();
 router.post(
   '/register',
   upload.single('passportPhoto'),
+  optimizeImage,
   registrationValidationRules,
   validate,
   handleRegistration
